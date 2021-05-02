@@ -4,9 +4,14 @@ let update = document.lastModified;
 
 //my links
 const weeks = [{
-    label: "Week01",
-    url: "week01/index.html"
-}]
+        label: "Week01",
+        url: "week01/index.html"
+    },
+    {
+        label: "Week02",
+        url: "week02/index.html"
+    }
+]
 
 //for loop
 for (let i = 0; i < weeks.length; i++) {

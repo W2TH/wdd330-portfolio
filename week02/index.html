@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 02 | Daniel Escobedo Miranda</title>
+    <meta name="description" content="Week 02 page for Daniel Escobedo Miranda in WDD 330: Web Frontend Development II at Brigham Young University - Idaho">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/medium.css">
+    <link rel="stylesheet" href="css/normalize.css">
+</head>
+
+<body>
+    <div id="index-content">
+        <header>
+            <span><a href="../index.html">BACK</a></span>
+            <h1>Daniel Escobedo Miranda</h1>
+            <h1>Week 02</h1>
+        </header>
+        <main>
+            <h2>Notes</h2>
+            <hr>
+            <ul>
+                <li>Arrow functions are always anonymous and don't require the return statement.</li>
+                <li>If the function doesn't require any parameters, <b>a pair of empty parentheses must go before the arrow</b>.<br><i>const hello = <b>()</b> => alert('Hello World!')</i></li>
+                <li>We can use <b>forEach()</b> method in order to loop through any array instead of using the for loop.<br><i>for(let index = 0, max = colors.length ; index
+                    < max ; index++ ) //for loop<br>colors.forEach( (color,index) => //forEach method()</i>
+                </li>
+                <li>The <b>filter()</b> method returns a new array that only contains items from the original array that return true when passed to the callback. <br><i>const numbers = [ 2, 7, 6, 5, 11, 23, 12 ] <br>numbers.filter(x => x%2 === 0 ) <br><< [ 2, 6, 12 ]</i></li>
+            </ul>
+            <h2>Exercise</h2>
+            <hr>
+            <p>function minimum() {<br>  let a = document.getElementById('inputA').value;<br>  let b = document.getElementById('inputB').value;<br>  const min = (num1, num2) => {<br>   document.getElementById("output").innerHTML =<br>   "The lowest number
+                is: " + Math.min(num1, num2);<br>  }
+                <br>  min(a, b);<br>}
+            </p>
+            <a class="exercise-link" href="minimun-exercise.html">See how the code works</a>
+        </main>
+        <footer>
+            <p class="CopyRight">&copy; <span id="CopyRight-year"></span> | Daniel Escobedo Miranda | Arequipa, Peru | <a href="https://www.byui.edu/online" target="_blank">BYUI Online Learning</a></p>
+        </footer>
+        <script src="js/main.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script src="js/webfontload.js"></script>
+    </div>
+</body>
+
+</html>
