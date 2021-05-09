@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 03 | Daniel Escobedo Miranda</title>
+    <meta name="description" content="Week 03 page for Daniel Escobedo Miranda in WDD 330: Web Frontend Development II at Brigham Young University - Idaho">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/medium.css">
+    <link rel="stylesheet" href="css/normalize.css">
+</head>
+
+<body>
+    <div id="index-content">
+        <header>
+            <span><a href="../index.html">BACK</a></span>
+            <h1>Daniel Escobedo Miranda</h1>
+            <h1>Week 03</h1>
+        </header>
+        <main>
+            <h2>Notes</h2>
+            <hr>
+            <ul>
+                <li>We can create an empty object by using a constructor function. This method requires less typing and provides a concise way of initializing an object and its properties in one statement.
+                    <br>const spiderman = new <b>Object()</b></li>
+                <li>If we want to use curly braces for creating an empty object, the short way requires both <b>the variable name and the property key</b> to be the same.
+                    <br>//long way
+                    <br>const ironMan = { name: name, realName: realName };
+                    <br>//short way
+                    <br>const ironMan = { name, realName };</li>
+                <li>Permitted values in JSON are double-quoted strings, numbers, true, false, null, arrays and objects.
+                    <br>const batman = '{"name": "Batman","real name": "Bruce Wayne","height": 74, "weight": 210, "hero": true, "villain": false, "allies": ["Robin","Batgirl","Superman"]}'</li>
+                <li>To generate a random number between 0 and another number, we can multiply the value by that number.
+                    <br>6 * Math.random(); //generates a random number between 0 and 6
+                    <br>10 * Math.random(); //generates a random number between 0 and 10</li>
+            </ul>
+            <h2>Exercise</h2>
+            <hr>
+            <p>function startQuiz() {
+                <br>const quiz = [
+                <br> { name: "Superman", realName: "Clark Kent" },
+                <br> { name: "Wonder Woman", realName: "Diana Prince" },
+                <br> { name: "Batman", realName: "Bruce Wayne" },
+                <br>];
+                <br>
+                <br>const game = {
+                <br> start(quiz) {
+                <br> this.questions = [...quiz];
+                <br> this.score = 0;
+                <br> // main game loop
+                <br> for (const question of this.questions) {
+                <br> this.question = question;
+                <br> this.ask();
+                <br> }
+                <br> // end of main game loop
+                <br> this.gameOver();
+                <br> },
+                <br> ask() {
+                <br> const question = `What is ${this.question.name}'s real name?`;
+                <br> const response = prompt(question);
+                <br> this.check(response);
+                <br> },
+                <br> check(response) {
+                <br> const answer = this.question.realName;
+                <br> if (response === answer) {
+                <br> alert('Correct!');
+                <br> this.score++;
+                <br> } else {
+                <br> alert(`Wrong! The correct answer was ${answer}`);
+                <br> }
+                <br> },
+                <br> gameOver() {
+                <br> alert(`Game Over, you scored ${this.score} point${this.score !== 1 ? 's' : ''}`);
+                <br> }
+                <br>}
+                <br>
+                <br>game.start(quiz);
+                <br>}</p>
+            <a class="exercise-link" href="quiz-exercise.html">See how the code works</a>
+        </main>
+        <footer>
+            <p class="CopyRight">&copy; <span id="CopyRight-year"></span> | Daniel Escobedo Miranda | Arequipa, Peru | <a href="https://www.byui.edu/online" target="_blank">BYUI Online Learning</a></p>
+        </footer>
+        <script src="js/main.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script src="js/webfontload.js"></script>
+    </div>
+</body>
+
+</html>
