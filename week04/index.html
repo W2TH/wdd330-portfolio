@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 04 | Daniel Escobedo Miranda</title>
+    <meta name="description" content="Week 04 page for Daniel Escobedo Miranda in WDD 330: Web Frontend Development II at Brigham Young University - Idaho">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/medium.css">
+    <link rel="stylesheet" href="css/normalize.css">
+</head>
+
+<body>
+    <div id="index-content">
+        <header>
+            <span><a href="../index.html">BACK</a></span>
+            <h1>Daniel Escobedo Miranda</h1>
+            <h1>Week 04</h1>
+        </header>
+        <main>
+            <h2>Notes</h2>
+            <hr>
+            <ul>
+                <li>Encapsulation means keeping all the programming logic inside an object and making methods availble to implement the functionality, without the outside world needing to know how it's done.</li>
+                <li>Polymorphism means various objects can share the same method, but also have the ability to override shared methods with a more specific implementation.</li>
+                <li>Inheritance means we can take an object that already exists and inherit all its properties and methods. We can then improve on its functionality by adding new properties and methods.</li>
+            </ul>
+            <h2>Exercise</h2>
+            <hr>
+            <p>
+                <br> const quiz = [
+                <br> { name: "Superman", realName: "Clark Kent" },
+                <br> { name: "Wonderwoman", realName: "Dianna Prince" },
+                <br> { name: "Batman", realName: "Bruce Wayne" },
+                <br> { name: "The Hulk", realName: "Bruce Banner" },
+                <br> { name: "Spider-man", realName: "Peter Parker" },
+                <br> { name: "Cyclops", realName: "Scott Summers" }
+                <br>];
+                <br>
+                <br>// Utility functions
+                <br>function random(a, b = 1) {
+                <br> // if only 1 argument is provided, we need to swap the values of a and b
+                <br> if (b === 1) {
+                <br> [a, b] = [b, a];
+                <br> }
+                <br> return Math.floor((b - a + 1) * Math.random()) + a;
+                <br>}
+                <br>
+                <br>function shuffle(array) {
+                <br> for (let i = array.length; i; i--) {
+                <br> let j = random(i) - 1;
+                <br> [array[i - 1], array[j]] = [array[j], array[i - 1]];
+                <br> }
+                <br>}
+                <br>
+                <br>// View Object
+                <br>const view = {
+                <br> score: document.querySelector('#score strong'),
+                <br> question: document.querySelector('#question'),
+                <br> result: document.querySelector('#result'),
+                <br> info: document.querySelector('#info'),
+                <br> start: document.querySelector('#start'),
+                <br> response: document.querySelector('#response'),
+                <br> timer: document.querySelector('#timer strong'),
+                <br> render(target, content, attributes) {
+                <br> for (const key in attributes) {
+                <br> target.setAttribute(key, attributes[key]);
+                <br> }
+                <br> target.innerHTML = content;
+                <br> },
+                <br> show(element) {
+                <br> element.style.display = 'block';
+                <br> },
+                <br> hide(element) {
+                <br> element.style.display = 'none';
+                <br> },
+                <br> setup() {
+                <br> this.show(this.question);
+                <br> this.show(this.response);
+                <br> this.show(this.result);
+                <br> this.hide(this.start);
+                <br> this.render(this.score, game.score);
+                <br> this.render(this.result, '');
+                <br> this.render(this.info, '');
+                <br> },
+                <br> teardown() {
+                <br> this.hide(this.question);
+                <br> this.hide(this.response);
+                <br> this.show(this.start);
+                <br> },
+                <br> buttons(array) {
+                <br> return array.map(value => `button${value}/button`).join('');
+                <br> }
+                <br>};
+                <br>
+                <br>const game = {
+                <br> start(quiz) {
+                <br> console.log('start() invoked');
+                <br> this.score = 0;
+                <br> this.questions = [...quiz];
+                <br> view.setup();
+                <br> this.secondsRemaining = 20;
+                <br> this.timer = setInterval(this.countdown, 1000);
+                <br> this.ask();
+                <br> },
+                <br> countdown() {
+                <br> game.secondsRemaining--;
+                <br> view.render(view.timer, game.secondsRemaining);
+                <br> if (game.secondsRemaining
+                <=0 ) { <br> game.gameOver();
+                    <br> }
+                    <br> },
+                    <br> ask(name) {
+                    <br> console.log('ask() invoked');
+                    <br> if (this.questions.length > 2) {
+                    <br> shuffle(this.questions);
+                    <br> this.question = this.questions.pop();
+                    <br> const options = [this.questions[0].realName, this.questions[1].realName, this.question.realName];
+                    <br> shuffle(options);
+                    <br> const question = `What is ${this.question.name}'s real name?`;
+                    <br> view.render(view.question, question);
+                    <br> view.render(view.response, view.buttons(options));
+                    <br> } else {
+                    <br> this.gameOver();
+                    <br> }
+                    <br> },
+                    <br> check(event) {
+                    <br> console.log('check(event) invoked');
+                    <br> const response = event.target.textContent;
+                    <br> const answer = this.question.realName;
+                    <br> if (response === answer) {
+                    <br> view.render(view.result, 'Correct!', { 'class': 'correct' });
+                    <br> this.score++;
+                    <br> view.render(view.score, this.score);
+                    <br> } else {
+                    <br> view.render(view.result, `Wrong! The correct answer was ${answer}`, { 'class': 'wrong' });
+                    <br> }
+                    <br> this.ask();
+                    <br> },
+                    <br> gameOver() {
+                    <br> console.log('gameOver() invoked');
+                    <br> view.render(view.info, `Game Over, you scored ${this.score} point${this.score !== 1 ? 's' : ''}`);
+                    <br> view.teardown();
+                    <br> clearInterval(this.timer);
+                    <br> }
+                    <br>}
+                    <br>
+                    <br>//game.start(quiz);
+                    <br>view.start.addEventListener('click', () => game.start(quiz), false);
+                    <br>view.response.addEventListener('click', (event) => game.check(event), false);</p>
+            <a class="exercise-link" href="quiz-exercise.html">See how the code works</a>
+        </main>
+        <footer>
+            <p class="CopyRight">&copy; <span id="CopyRight-year"></span> | Daniel Escobedo Miranda | Arequipa, Peru | <a href="https://www.byui.edu/online" target="_blank">BYUI Online Learning</a></p>
+        </footer>
+        <script src="js/main.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script src="js/webfontload.js"></script>
+    </div>
+</body>
+
+</html>
