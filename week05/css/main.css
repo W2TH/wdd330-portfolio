@@ -96,11 +96,13 @@ p {
     background-color: #c00;
 }
 
-#timer {
+#timer,
+#score {
     margin-bottom: 0px;
 }
 
-#score {
+#score,
+#tip {
     margin-top: 0px;
 }
 
