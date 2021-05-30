@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midterm Checkin | Daniel Escobedo Miranda</title>
+    <meta name="description" content="Midterm Checkin page for Daniel Escobedo Miranda in WDD 330: Web Frontend Development II at Brigham Young University - Idaho">
+    <link rel="stylesheet" href="css/main-midterm-chekin.css">
+    <link rel="stylesheet" href="css/medium.css">
+    <link rel="stylesheet" href="css/normalize.css">
+</head>
+
+<body>
+    <div id="index-content">
+        <header>
+            <span><a href="index.html">BACK</a></span>
+            <h1>Daniel Escobedo Miranda</h1>
+            <h1>Week 06</h1>
+        </header>
+        <main>
+            <h2>ToDo List</h2>
+            <hr>
+            <div class="todo-container">
+                <ul class="todo-list" id="todo-list"></ul>
+            </div>
+            <div class="filter-todo">
+                <div class="todo-left"></div>
+                <div class="select-todo" id="select-todo">
+                    <input data-value="all" type="radio" id="radioAll" name="todos" value="all" checked>
+                    <label data-value="all" for="radioAll">All</label>
+                    <input data-value="active" type="radio" id="radioActive" name="todos" value="active">
+                    <label data-value="active" for="radioActive">Active</label>
+                    <input data-value="completed" type="radio" id="radioCompleted" name="todos" value="completed">
+                    <label data-value="completed" for="radioCompleted">Completed</label>
+                </div>
+            </div>
+            <form class="inputArea">
+                <input type="text" class="todo-input" placeholder="Add task" maxlength="16" required/>
+                <button class="todo-button" id="todoBtn" type="submit">
+                  <i class="fa-plus-square"></i>&#43;</button>
+            </form>
+        </main>
+        <footer>
+            <p class="CopyRight">&copy; <span id="CopyRight-year"></span> | Daniel Escobedo Miranda | Arequipa, Peru | <a href="https://www.byui.edu/online" target="_blank">BYUI Online Learning</a></p>
+        </footer>
+        <script src="js/main.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script src="js/webfontload.js"></script>
+        <script type="module" src="js/main-midterm-checkin.js"></script>
+    </div>
+</body>
+
+</html>
