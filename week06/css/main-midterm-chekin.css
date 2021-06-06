@@ -57,9 +57,10 @@ h2 {
 }
 
 .inputArea {
-  min-height: 10vh;
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 .inputArea input,
@@ -139,7 +140,7 @@ h2 {
 .todo .trash-btn,
 .todo .complete-btn {
   overflow: hidden;
-  background: #ff6f47;
+  background: #cf2121;
   color: white;
   border: none;
   padding: 1rem;

@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Gentium+Basic&display=swap");
+body {
+    background-color: white;
+    font-family: "Gentium Basic", serif;
+}
+
+body div {
+    background-color: white;
+    max-width: 760px;
+    border-radius: 8px;
+    margin: 1.5rem auto;
+}
+
+header {
+    background-color: #aba361;
+    border-radius: 8px;
+    padding: 0.1rem;
+}
+
+header span {
+    position: absolute;
+    top: 3.2rem;
+    margin-left: 1.2rem;
+}
+
+header span a {
+    color: black;
+    display: block;
+    background-color: #aa8439;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+
+header span a:hover {
+    background-color: #aa843996;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.7rem;
+}
+
+h1:last-child {
+    font-size: 1.4em;
+    margin-top: -1em;
+}
+
+hr {
+    margin-left: 1rem;
+}
+
+h2 {
+    padding-left: 1rem;
+    margin: 1.8rem auto 0.2% auto;
+}
+
+ul {
+    margin: 0.2% auto 1.8rem auto;
+    list-style-type: square;
+}
+
+li {
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.exercise-link {
+    margin-top: 0px;
+    margin-left: 1rem;
+}
+
+.exercise-div {
+    margin-left: 1rem;
+}
+
+#question {
+    font-size: 2rem;
+}
+
+#result {
+    color: #fff;
+    margin: 0.2em 0;
+    text-align: center;
+}
+
+.correct {
+    background-color: #0c0;
+}
+
+.wrong {
+    color: #fff;
+    background-color: #c00;
+}
+
+#timer,
+#score {
+    margin-bottom: 0px;
+}
+
+#score,
+#tip {
+    margin-top: 0px;
+}
+
+footer {
+    border-radius: 8px;
+    padding: 0.1rem;
+    background-color: #aba361;
+    margin-top: 1rem;
+}
+
+.CopyRight {
+    text-align: center;
+}
+
+footer p a {
+    color: black;
+}
