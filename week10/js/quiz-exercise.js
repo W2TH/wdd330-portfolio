@@ -1,5 +1,15 @@
-const url = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/questions.json';
+//audio
+const ctx = new AudioContext();
+let audio;
 
+fetch("./music/avengers-theme.mp3")
+    .then(data => data.arrayBuffer())
+    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+    .then(decodeAudio => {
+        audio = decodeAudio;
+    })
+    //
+const url = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/questions.json';
 fetch(url)
     .then(res => res.json())
     .then(quiz => {
@@ -71,6 +81,12 @@ const view = {
 const game = {
     start(quiz) {
         console.log(`start() invoked`);
+
+        const playSound = ctx.createBufferSource();
+        playSound.buffer = audio;
+        playSound.connect(ctx.destination);
+        playSound.start(ctx.currentTime);
+
         this.score = 0;
         this.questions = [...quiz];
         view.setup();
