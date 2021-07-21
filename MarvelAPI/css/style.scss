@@ -1,0 +1,48 @@
+/*colors*/
+
+$background-color: #22262A;
+$link-red-color: #F0131E;
+$jumbotron-background-color: #151515;
+
+/*code*/
+
+body {
+    font-family: "Anton", serif;
+    background-color: $background-color;
+}
+
+a {
+    &:link,
+    &:visited {
+        color: $link-red-color;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s;
+    }
+    &:hover,
+    &:active {
+        color: white;
+        background-color: $link-red-color;
+        box-shadow: 0 1rem 2rem rgba(black, .4);
+        transform: rotate(5deg) scale(1.2);
+        padding: 2px;
+    }
+}
+
+.jumbotron {
+    background-color: $jumbotron-background-color;
+}
+
+.header-main-title {
+    color: white;
+}
+
+#characterMainTitle,
+#comicMainTitle {
+    color: white;
+}
+
+.card {
+    border: none;
+    border-radius: 2px;
+}
