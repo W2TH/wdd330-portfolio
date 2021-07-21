@@ -1,14 +1,10 @@
-var ts = Date.now().toString();
-const publicKey = "bc78813236d6d6cc83c2163be59b7650";
-const privateKey = "a791a7ddd7e7709052718a3a9acc386e97290196";
-//const hash;
-//const url = "http://gateway.marvel.com/v1/public/comics?ts=1&apikey=1234&hash=ffd275c5130566a2916217b101f26150"
+const url1 = "http://gateway.marvel.com/v1/public/characters?"
+const url2 = "&ts=1&apikey=bc78813236d6d6cc83c2163be59b7650&hash=3051862eab0a5905267bd6c5d240cf97"
 
 function character() {
     let urlQueryParameters = new URLSearchParams(window.location.search),
         queryParameterName = urlQueryParameters.get("name"),
         name = document.getElementById("name").value;
-    //console.log("hello");
     //console.log(ts);
 
     if (queryParameterName !== null && queryParameterName !== "") {
@@ -21,142 +17,100 @@ function character() {
     }
 }
 
-/*function connection() {
-    document.getElementById("characterSpinnerSection").innerHTML = "";
-    document.getElementById("comicsSpinnerSection").innerHTML = "";
-
-    fetch()
-}*/
-
 function connection() {
-    document.getElementById("characterSpinnerSection").innerHTML = "";
-    document.getElementById("comicsSpinnerSection").innerHTML = "";
 
-    const xhr = new XMLHttpRequest();
     const name = document.getElementById("name").value;
     const params = "name=" + name;
 
-    xhr.open("GET", "./connections/name-search.php?" + params, true);
+    fetch(url1 + params + url2)
+        .then(res => res.json())
+        .then(data => {
 
-    xhr.onloadstart = function() {
-        document.getElementById("characterSpinnerSection").innerHTML =
-            '<strong id="spinnerText" class="text-primary">Loading character...</strong>' +
-            '<div class="text-primary spinner-border ml-auto" role="status" ' +
-            'aria-hidden="true" id="spinner"></div>';
-    };
+            let results = data;
+            if (results["data"].count === 0) {
+                document.getElementById("characterSection").innerHTML =
+                    '<h2 id="characterMainTitle" class="mt-4">No results for <i>' +
+                    name +
+                    "</i>. Try again.</h2>";
 
-    xhr.onload = function() {
-        //if (this.status == 200) {
-        var results = JSON.parse(this.responseText);
-        //console.log(results["data"].count);
+            } else if (results === undefined || results.length == 0) {
+                document.getElementById("characterSection").innerHTML =
+                    '<h2 id="characterMainTitle">' +
+                    "An error might have occured on our end, Sorry. <br>In this case, try again later.</h2>";
 
-        if (results["data"].count === 0) {
-            document.getElementById("characterSection").innerHTML =
-                '<h2 id="characterMainTitle"><span style="font-weight:bold;">No results for... ' +
-                name +
-                "</span>" +
-                ". Try again.</h2>";
+            } else {
+                var characterAttributes = results["data"].results[0];
+                var characterID = results["data"].results[0].id;
+                var output = "";
 
-            document.getElementById("characterSpinnerSection").innerHTML = "";
+                output +=
+                    '<h2 id="characterMainTitle" class="mt-4">' +
+                    "Character" +
+                    "</h2>" +
+                    '<div class="card mb-4" id="characterCard">' +
+                    '<div id="characterImage">' +
+                    '<img class="card-img-left d-md-block img-fluid"' +
+                    ' alt="Picture of ' +
+                    characterAttributes.name +
+                    '" src="' +
+                    characterAttributes.thumbnail["path"] +
+                    "." +
+                    characterAttributes.thumbnail["extension"] +
+                    '">' +
+                    "</div>" +
+                    '<div class="card-body">' +
+                    '<h3 class="mb-0 text-dark" id="characterName">' +
+                    characterAttributes.name +
+                    "</h3>" +
+                    '<p class="card-text mb-3" id="characterDescription">';
+                if (characterAttributes.description !== "") {
+                    output += characterAttributes.description;
+                } else {
+                    output += "No Information";
+                }
+                output +=
+                    "</p>" +
+                    '<div class="mt-auto">' +
+                    '<p class="text-muted mb-0 " id="comicsAvailable">' +
+                    "Comics: " +
+                    characterAttributes.comics.available +
+                    " | " +
+                    "Series: " +
+                    characterAttributes.series.available +
+                    " | " +
+                    "Stories: " +
+                    characterAttributes.stories.available +
+                    " | " +
+                    "Events: " +
+                    characterAttributes.events.available +
+                    "</p>" +
+                    '<p class="mb-1 text-muted" id="characterInfoAttribution">' +
+                    results["attributionText"] +
+                    "</p>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
 
-            document.getElementById("comicsSpinnerSection").innerHTML = "";
-        } else if (results === undefined || results.length == 0) {
-            document.getElementById("characterSection").innerHTML =
-                '<h2 id="characterMainTitle">' +
-                "An error might have occured on our end, Sorry. <br>In this case, try again later.</h2>";
+                document.getElementById("characterSection").innerHTML = output;
 
-            document.getElementById("characterSpinnerSection").innerHTML = "";
+                comics(characterID);
+            } // else {
+            //console.log("onload error...");
+        });
 
-            document.getElementById("comicsSpinnerSection").innerHTML = "";
-        } else {
-            var characterAttributes = results["data"].results[0];
-            var characterID = results["data"].results[0].id;
-            var output = "";
-
-            output +=
-                '<h2 id="characterMainTitle">' +
-                "Character" +
-                "</h2>" +
-                '<div class="card flex-md-row mb-4 box-shadow h-md-250" id="characterCard">' +
-                '<div id="characterImage">' +
-                '<img class="card-img-right flex-auto d-md-block img-fluid"' +
-                ' alt="Picture of ' +
-                characterAttributes.name +
-                '" src="' +
-                characterAttributes.thumbnail["path"] +
-                "." +
-                characterAttributes.thumbnail["extension"] +
-                '">' +
-                "</div>" +
-                '<div class="card-body d-flex flex-column align-items-start">' +
-                '<h3 class="mb-0 text-dark" id="characterName">' +
-                characterAttributes.name +
-                "</h3>" +
-                '<p class="card-text mb-3" id="characterDescription">';
-            if (characterAttributes.description !== "") {
-                output += characterAttributes.description;
-            }
-            output +=
-                "</p>" +
-                '<p class="text-muted mb-3" id="comicsAvailable">' +
-                "Comics: " +
-                characterAttributes.comics.available +
-                " | " +
-                "Series: " +
-                characterAttributes.series.available +
-                " | " +
-                "Stories: " +
-                characterAttributes.stories.available +
-                " | " +
-                "Events: " +
-                characterAttributes.events.available +
-                "</p>" +
-                '<p class="mb-1 text-muted" id="characterInfoAttribution">' +
-                results["attributionText"] +
-                "</p>" +
-                "</div>" +
-                "</div>";
-
-            document.getElementById("characterSection").innerHTML = output;
-
-            comics(characterID);
-            //}
-        } // else {
-        //console.log("onload error...");
-        //}
-    };
-
-    xhr.onloadend = function() {
-        document.getElementById("characterSpinnerSection").innerHTML = "";
-    };
-
-    xhr.onerror = function() {
-        console.log("onerror Error...");
-    };
-
-    xhr.send();
 }
 
 function comics(characterID) {
-    var xhr = new XMLHttpRequest();
 
-    xhr.open(
-        "GET",
-        "./connections/character.php?character-id=" + characterID,
-        true
-    );
-
-    xhr.onloadstart = function() {
-        document.getElementById("comicsSpinnerSection").innerHTML =
-            '<strong id="spinnerText" class="text-danger">Loading comics below...</strong>' +
-            '<div class="spinner-border text-danger ml-auto" role="status" ' +
-            'aria-hidden="true" id="spinner"></div>';
-    };
-    xhr.onload = function() {
-        if (this.status === 200) {
-            var results = JSON.parse(this.responseText);
-            var comics = results["data"].results;
+    fetch("https://gateway.marvel.com:443/v1/public/characters/" +
+            characterID +
+            "/comics?" +
+            url2)
+        .then(res => res.json())
+        .then(data => {
+            var comics = data["data"].results;
             var comicSection = document.getElementById("comicSection");
+            let results = data;
 
             if (results["data"].count === 0) {
                 var output = "";
@@ -235,21 +189,7 @@ function comics(characterID) {
 
                 comicSection.innerHTML = output;
             }
-        } else {
-            console.log("Error onload function.");
-        }
-    };
-
-    xhr.onloadend = function() {
-        document.getElementById("comicsSpinnerSection").innerHTML =
-            '<strong id="spinnerText" class="text-success">Done.</strong>';
-    };
-
-    xhr.onerror = function() {
-        console.log("Error onerror function.");
-    };
-
-    xhr.send();
+        });
 }
 
 function singleComic() {

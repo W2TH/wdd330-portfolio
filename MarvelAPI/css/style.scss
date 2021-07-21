@@ -9,6 +9,9 @@ $jumbotron-background-color: #151515;
 body {
     font-family: "Anton", serif;
     background-color: $background-color;
+    .jumbotron {
+        background-color: $jumbotron-background-color;
+    }
 }
 
 a {
@@ -17,20 +20,16 @@ a {
         color: $link-red-color;
         text-decoration: none;
         display: inline-block;
-        transition: all 0.3s;
+        //transition: all 0.3s;
     }
     &:hover,
     &:active {
         color: white;
         background-color: $link-red-color;
         box-shadow: 0 1rem 2rem rgba(black, .4);
-        transform: rotate(5deg) scale(1.2);
+        //transform: rotate(5deg) scale(1.2);
         padding: 2px;
     }
-}
-
-.jumbotron {
-    background-color: $jumbotron-background-color;
 }
 
 .header-main-title {
@@ -44,5 +43,11 @@ a {
 
 .card {
     border: none;
-    border-radius: 2px;
+}
+
+@media (min-width: 60em) {
+    .card {
+        display: grid;
+        grid-template-columns: 25% auto;
+    }
 }
