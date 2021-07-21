@@ -42,6 +42,10 @@ const weeks = [{
     {
         label: "Week10",
         url: "week10/index.html"
+    },
+    {
+        label: "PersonalProject",
+        url: "MarvelAPI/index.html"
     }
 ]
 
