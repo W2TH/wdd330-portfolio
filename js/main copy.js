@@ -314,6 +314,57 @@ function comicCreator() {
                 "</div>" +
                 "</div>";
 
+            output +=
+                '<h1 class="header-main-title single-comic__main-title">Comics</h1>' +
+                '<div class="row" id="comicColumns"></div>';
+
             comicCreatorContainerDiv.innerHTML = output;
+
+            for (const i in creatorComics) {
+                if (creatorComics.hasOwnProperty(i)) {
+                    const comic = creatorComics[i];
+                    creatorSingleComic(comic.resourceURI);
+                }
+            }
         });
+}
+
+function creatorSingleComic(comicResourceURI) {
+    var url = new URL(comicResourceURI),
+        comicID = url.pathname.substring(url.pathname.lastIndexOf("/") + 1);
+    fetch("https://gateway.marvel.com:443/v1/public/comics/" +
+            comicID +
+            "?" +
+            url2)
+        .then(res => res.json())
+        .then(data => {
+            //console.log(data);
+            var results = data,
+                comicInfo = data["data"].results[0],
+                comicImage =
+                comicInfo.thumbnail["path"] + "." + comicInfo.thumbnail["extension"],
+                comicTitle = comicInfo.title,
+                output = "",
+                comicColumns = document.getElementById("comicColumns");
+            output =
+                '<div class="comic-card-columns" >' +
+                '<div class="comic-card mb-0">' +
+                '<a href="./comic.html?comic-id=' +
+                comicInfo.id +
+                '">' +
+                '<img src="' +
+                comicImage +
+                '" class="comic-card-img" alt="' +
+                comicTitle +
+                '">' +
+                '<h5 class="comic-card-title">' +
+                comicTitle +
+                "</h5>" +
+                "</a>" +
+                "</div>" +
+                "</div>";
+
+            comicColumns.innerHTML += output;
+        });
+
 }
