@@ -1,4 +1,4 @@
-const url1 = "http://gateway.marvel.com/v1/public/characters?"
+const url1 = "https://gateway.marvel.com/v1/public/characters?"
 const url2 = "&ts=1&apikey=bc78813236d6d6cc83c2163be59b7650&hash=3051862eab0a5905267bd6c5d240cf97"
 
 function character() {
