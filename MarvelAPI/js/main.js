@@ -19,8 +19,8 @@ function character() {
 
 function connection() {
 
-    const name = document.getElementById("name").value;
-    const params = "name=" + name;
+    var name = document.getElementById("name").value;
+    var params = "name=" + name;
 
     fetch(url1 + params + url2)
         .then(res => res.json())
@@ -122,66 +122,35 @@ function comics(characterID) {
                 var creators = "";
 
                 output +=
-                    '<h2 id="comicMainTitle">Comics</h2>' + '<div class="card-columns">';
+                    '<h2 id="comicMainTitle">Comics</h2>' +
+                    '<div class="comic-card-columns">';
 
                 for (const i in comics) {
                     if (comics.hasOwnProperty(i)) {
                         const comic = comics[i];
 
                         output +=
-                            '<div class="card">' +
+                            '<div class="comic-card mb-0">' +
                             '<a href="./comic.html?comic-id=' +
                             comic.id +
                             '"><img src="' +
                             comic.thumbnail["path"] +
                             "." +
                             comic.thumbnail["extension"] +
-                            '" class="card-img-top" alt="' +
+                            '" class="comic-card-img" alt="' +
                             comic.title +
-                            '"></a>' +
-                            '<div class="card-body">' +
-                            '<h5 class="card-title">' +
+                            '">' +
+                            //'<div class="comic-card-body">' +
+                            '<h5 class="comic-card-title">' +
                             comic.title +
                             "</h5>";
 
-                        if (comic.description != null) {
-                            output +=
-                                '<p style="font-size: 12px;" class="card-text">' +
-                                comic.description +
-                                "</p>";
-                        }
 
                         output +=
-                            '<p style="font-size: 12px;" class="card-text text-muted">Characters: ';
+                            //"</div>" +
 
-                        for (const k in comic.characters.items) {
-                            if (comic.characters.items.hasOwnProperty(k)) {
-                                const character = comic.characters.items[k];
-                                output += character.name.concat(", ");
-                            }
-                        }
-
-                        output += "</p>";
-                        output +=
-                            '<p style="font-size: 12px;" class="card-text text-muted">Creators: ';
-
-                        for (const j in comic.creators.items) {
-                            if (comic.creators.items.hasOwnProperty(j)) {
-                                const creator = comic.creators.items[j];
-
-                                output += creator.name.concat(" (" + creator.role + "), ");
-                            }
-                        }
-
-                        output += "</p>";
-                        output +=
                             "</div>" +
-                            '<div class="card-footer">' +
-                            '<small style="line-height: 1;" class="text-muted">' +
-                            results["attributionText"] +
-                            "</small>" +
-                            "</div>" +
-                            "</div>";
+                            '</a>';
                     }
                 }
 
@@ -196,18 +165,13 @@ function singleComic() {
     var urlQueryParameters = new URLSearchParams(window.location.search),
         comicID = urlQueryParameters.get("comic-id");
 
-    var xhr = new XMLHttpRequest();
-
-    xhr.open("GET", "./connections/single-comic.php?comic-id=" + comicID, true);
-    xhr.onloadstart = function() {
-        document.getElementById("comicsSpinnerSection").innerHTML =
-            '<strong id="spinnerText" class="text-secondary">Loading comic info...</strong>' +
-            '<div class="spinner-border text-secondary ml-auto" role="status" ' +
-            'aria-hidden="true" id="spinner"></div>';
-    };
-    xhr.onload = function() {
-        if (this.status == 200) {
-            var results = JSON.parse(this.responseText);
+    fetch("https://gateway.marvel.com:443/v1/public/comics/" +
+            comicID +
+            "?" +
+            url2)
+        .then(res => res.json())
+        .then(data => {
+            var results = data;
             (comicInfo = results["data"].results[0]),
             (comicImage =
                 comicInfo.thumbnail["path"] + "." + comicInfo.thumbnail["extension"]),
@@ -220,35 +184,33 @@ function singleComic() {
             ));
 
             output +=
-                '<h1 class="header-main-title single-comic__main-title">' +
+                '<h1 class="header-main-title single-comic__main-title mt-4">' +
                 comicInfo.title +
                 "</h1>" +
                 '<div class="card mb-3">' +
-                '<div class="row no-gutters">' +
-                '<div class="col-md-4">' +
+                '<div id="characterImage">' +
                 '<img src="' +
                 comicImage +
-                '" class="card-img" alt="...">' +
+                '" class="card-img-left d-md-block img-fluid" alt="...">' +
                 "</div>" +
-                '<div class="col-md-8">' +
                 '<div class="card-body">' +
-                '<h5 class="card-title">' +
+                '<h3 class="mb-0 text-dark">' +
                 comicInfo.title +
-                "</h5>";
+                "</h3>";
 
             if (comicDescription !== null && comicDescription !== "") {
                 output += '<p class="card-text">' + comicDescription + "</p>";
             }
 
             output +=
-                '<p class="card-text">' +
+                '<p class="card-text mt-3 mb-0">' +
                 '<small class="text-muted">' +
                 " Characters: ";
             for (const i in comicCharacters) {
                 if (comicCharacters.hasOwnProperty(i)) {
                     const character = comicCharacters[i];
                     output +=
-                        '<a href="./index.php?name=' +
+                        '<a href="./index.html?name=' +
                         character.name +
                         '">' +
                         character.name +
@@ -270,59 +232,41 @@ function singleComic() {
                             url.pathname.lastIndexOf("/") + 1
                         );
                     output +=
-                        '<a href="./creator.php?creator-id=' +
+                        '<a href="./creator.html?creator-id=' +
                         creatorID +
                         '">' +
                         creator.name.concat(" (" + creator.role + "), ") +
-                        "</a>, ";
+                        "</a> ";
                 }
             }
 
             output +=
                 "</small>" +
                 "</p>" +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                '<div class="card-footer text-muted text-right"> ' +
+                '<div class="mt-auto text-muted"> ' +
                 results["attributionText"] +
+                "</div>" +
                 "</div>" +
                 "</div>";
 
             singleComicContainerDiv.innerHTML = output;
-        } else {
-            console.log("Error from onload Function...");
-        }
-    };
-    xhr.onloadend = function() {
-        document.getElementById("comicsSpinnerSection").innerHTML =
-            '<strong id="spinnerText" class="text-secondary">Done.</strong>';
-    };
-    xhr.onerror = function() {
-        console.log("Error from onerror function...");
-    };
-    xhr.send();
+        });
 }
 
 function comicCreator() {
+
     var urlQueryParameters = new URLSearchParams(window.location.search),
-        creatorID = urlQueryParameters.get("creator-id"),
-        xhr = new XMLHttpRequest();
+        creatorID = urlQueryParameters.get("creator-id");
 
-    xhr.open("GET", "./connections/creator.php?creator-id=" + creatorID, true);
-
-    xhr.onloadstart = function() {
-        document.getElementById("comicCreatorSpinnerSection").innerHTML =
-            '<strong id="spinnerText" class="text-secondary">Loading creator info...</strong>' +
-            '<div class="spinner-border text-secondary ml-auto" role="status" ' +
-            'aria-hidden="true" id="spinner"></div>';
-    };
-
-    xhr.onload = function() {
-        if (this.status === 200) {
-            var results = JSON.parse(this.responseText),
+    fetch("https://gateway.marvel.com:443/v1/public/creators/" +
+            creatorID +
+            "?" +
+            url2)
+        .then(res => res.json())
+        .then(data => {
+            var results = data,
                 output = "",
-                creatorInfo = results["data"].results[0],
+                creatorInfo = data["data"].results[0],
                 creatorFullName = creatorInfo.fullName,
                 creatorImage =
                 creatorInfo.thumbnail["path"] +
@@ -336,17 +280,15 @@ function comicCreator() {
             output +=
                 '<h1 class="header-main-title single-comic__main-title">Creator</h1>' +
                 '<div class="card mb-3">' +
-                '<div class="row no-gutters">' +
-                '<div class="col-md-4">' +
+                '<div id="characterImage">' +
                 '<img src="' +
                 creatorImage +
-                '" class="card-img" alt="...">' +
-                "</div>" + // end col-md-4
-                '<div class="col-md-8">' +
+                '" class="card-img-left d-md-block img-fluid" alt="...">' +
+                "</div>" +
                 '<div class="card-body">' +
-                '<h5 class="card-title">' +
+                '<h3 class="mb-0 text-dark">' +
                 creatorFullName +
-                "</h5>";
+                "</h3>";
 
             output +=
                 '<p class="text-muted mb-3">' +
@@ -364,13 +306,13 @@ function comicCreator() {
                 "</p>";
 
             output +=
-                "</div>" + // Card Body
-                "</div>" + // col-md-8
-                "</div>" + // row
-                '<div class="card-footer text-muted text-right"> ' +
+                "</small>" +
+                "</p>" +
+                '<div class="mt-auto text-muted"> ' +
                 results["attributionText"] +
                 "</div>" +
-                "</div>"; // card
+                "</div>" +
+                "</div>";
 
             output +=
                 '<h1 class="header-main-title single-comic__main-title">Comics</h1>' +
@@ -384,90 +326,45 @@ function comicCreator() {
                     creatorSingleComic(comic.resourceURI);
                 }
             }
-        } else {
-            console.log("onload function error..." + this.responseText);
-        }
-    };
-
-    xhr.onloadend = function() {
-        document.getElementById("comicCreatorSpinnerSection").innerHTML = "";
-    };
-
-    xhr.onerror = function() {
-        console.log("onerror method error..." + this.responseText);
-    };
-
-    xhr.send();
+        });
 }
 
 function creatorSingleComic(comicResourceURI) {
     var url = new URL(comicResourceURI),
-        comicID = url.pathname.substring(url.pathname.lastIndexOf("/") + 1),
-        xhr = new XMLHttpRequest();
-
-    xhr.open("GET", "./connections/single-comic.php?comic-id=" + comicID, true);
-
-    xhr.onloadstart = function() {
-        document.getElementById("comicCreatorSpinnerSection1").innerHTML =
-            '<strong id="spinnerText" class="text-secondary">Loading comics...</strong>' +
-            '<div class="spinner-border text-secondary ml-auto" role="status" ' +
-            'aria-hidden="true" id="spinner"></div>';
-    };
-
-    xhr.onload = function() {
-        if (this.status === 200) {
-            var results = JSON.parse(this.responseText),
-                comicInfo = results["data"].results[0],
+        comicID = url.pathname.substring(url.pathname.lastIndexOf("/") + 1);
+    fetch("https://gateway.marvel.com:443/v1/public/comics/" +
+            comicID +
+            "?" +
+            url2)
+        .then(res => res.json())
+        .then(data => {
+            //console.log(data);
+            var results = data,
+                comicInfo = data["data"].results[0],
                 comicImage =
                 comicInfo.thumbnail["path"] + "." + comicInfo.thumbnail["extension"],
                 comicTitle = comicInfo.title,
                 output = "",
                 comicColumns = document.getElementById("comicColumns");
             output =
-                '<div class="col-md-4" >' +
-                '<div class="card mb-3">' +
-                '<a href="./comic.php?comic-id=' +
+                '<div class="comic-card-columns" >' +
+                '<div class="comic-card mb-0">' +
+                '<a href="./comic.html?comic-id=' +
                 comicInfo.id +
                 '">' +
                 '<img src="' +
                 comicImage +
-                '" class="card-img-top" alt="' +
+                '" class="comic-card-img" alt="' +
                 comicTitle +
                 '">' +
-                "</a>" +
-                '<div class="card-body">' +
-                '<h5 class="card-title">' +
+                '<h5 class="comic-card-title">' +
                 comicTitle +
-                "</h5>";
-
-            if (comicInfo.description !== "") {
-                output +=
-                    '<p class="card-text"><small class="text-muted">' +
-                    comicInfo.description +
-                    "</small></p>";
-            }
-            output +=
-                '<a href="./comic.php?comic-id=' +
-                comicInfo.id +
-                '">Check it out!</a>' +
-                "</div>" +
+                "</h5>" +
+                "</a>" +
                 "</div>" +
                 "</div>";
 
             comicColumns.innerHTML += output;
-        } else {
-            console.log("onload error...");
-        }
-    };
+        });
 
-    xhr.onloaderror = function() {
-        console.log("onloaderror...");
-    };
-
-    xhr.onloadend = function() {
-        document.getElementById("comicCreatorSpinnerSection1").innerHTML =
-            '<strong id="spinnerText" class="text-secondary">Done.</strong>';
-    };
-
-    xhr.send();
 }

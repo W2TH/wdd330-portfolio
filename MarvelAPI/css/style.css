@@ -8,16 +8,12 @@ body .jumbotron {
   background-color: #151515;
 }
 
-a:link, a:visited {
-  color: #F0131E;
-  text-decoration: none;
-  display: inline-block;
-}
 a:hover, a:active {
   color: white;
   background-color: #F0131E;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
-  padding: 2px;
+  filter: grayscale(100%);
+  padding: 3px;
 }
 
 .header-main-title {
@@ -33,10 +29,40 @@ a:hover, a:active {
   border: none;
 }
 
+.comic-card-columns {
+  display: grid;
+  grid-template-columns: 47.5% 47.5%;
+  column-gap: 5%;
+  row-gap: 0.5rem;
+}
+.comic-card-columns .comic-card a {
+  display: grid;
+}
+.comic-card-columns .comic-card a .comic-card-img,
+.comic-card-columns .comic-card a .comic-card-body {
+  grid-row-start: 0;
+  grid-row-end: 2;
+  grid-column-start: 0;
+  grid-column-end: 2;
+  width: 100%;
+}
+
+.btn-go-home {
+  margin-left: 2rem;
+}
+.btn-go-home:hover {
+  filter: none;
+  background-color: transparent;
+}
+
 @media (min-width: 60em) {
   .card {
     display: grid;
     grid-template-columns: 25% auto;
+  }
+
+  .comic-card-columns {
+    grid-template-columns: 30% 30% 30%;
   }
 }
 

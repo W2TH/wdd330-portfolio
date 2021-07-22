@@ -15,20 +15,13 @@ body {
 }
 
 a {
-    &:link,
-    &:visited {
-        color: $link-red-color;
-        text-decoration: none;
-        display: inline-block;
-        //transition: all 0.3s;
-    }
     &:hover,
     &:active {
         color: white;
         background-color: $link-red-color;
         box-shadow: 0 1rem 2rem rgba(black, .4);
-        //transform: rotate(5deg) scale(1.2);
-        padding: 2px;
+        filter: grayscale(100%);
+        padding: 3px;
     }
 }
 
@@ -45,9 +38,40 @@ a {
     border: none;
 }
 
+.comic-card-columns {
+    display: grid;
+    grid-template-columns: 47.5% 47.5%;
+    column-gap: 5%;
+    row-gap: 0.5rem;
+    .comic-card {
+        a {
+            display: grid;
+            .comic-card-img,
+            .comic-card-body {
+                grid-row-start: 0;
+                grid-row-end: 2;
+                grid-column-start: 0;
+                grid-column-end: 2;
+                width: 100%;
+            }
+        }
+    }
+}
+
+.btn-go-home {
+    margin-left: 2rem;
+    &:hover {
+        filter: none;
+        background-color: transparent;
+    }
+}
+
 @media (min-width: 60em) {
     .card {
         display: grid;
         grid-template-columns: 25% auto;
+    }
+    .comic-card-columns {
+        grid-template-columns: 30% 30% 30%;
     }
 }
